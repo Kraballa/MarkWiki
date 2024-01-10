@@ -11,6 +11,8 @@ body {margin: 0;}
 a {color: var(--color-accent1);}
 div.bottombar a {color: var(--color-light);}
 
+p {text-align: justify;}
+
 nav {
     background-color: var(--color-accent1);
     padding: 1px;
