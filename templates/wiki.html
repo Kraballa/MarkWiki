@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+        <script src="{{ url_for('static', filename='util.js')}}"></script>
+    </head>
+
+    <body>
+        <nav class="topnav">
+            <div class="center">
+                <a href="/">MarkWiki</a>
+                |
+                <a href="/sitemap">Sitemap</a>
+                |
+                {{path|safe}}
+            </div>
+        </nav>
+        <div class="content center">
+            {{content|safe}}
+        </div>
+        <div class="bottombar">
+            markdown-wiki project <br>
+            created by <a href="https://github.com/Kraballa">github.kraballa</a>
+        </div>
+        <button id="topbutton" onclick="topFunction()">top</button>
+
+        <script>
+            let button = $("#topbutton");
+            window.onscroll = function scrollFunction() {
+                if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                    button.style.display = "block";
+                } else {
+                    button.style.display = "none";
+                }
+            }
+
+            function topFunction() {
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+    </body>
+
+</html>
