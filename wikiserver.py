@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template
+from markupsafe import Markup
 import markdown
 import os
 
@@ -7,7 +8,7 @@ app = Flask(__name__)
 @app.get("/")
 def index():
     readme_text = markdown.markdown(getFileContent("readme.md"))
-    return render_template("wiki.html", content=readme_text, path=request.path)
+    return render_template("wiki.html", content=Markup(readme_text), path=request.path)
 
 @app.get("/sitemap")
 def mainsitemap():
@@ -16,12 +17,12 @@ def mainsitemap():
 @app.get("/sitemap/<path:subpath>")
 def sitemap(subpath):
     cont = buildSiteMap(subpath)
-    return render_template("wiki.html", content=cont, path=request.path)
+    return render_template("wiki.html", content=Markup(cont), path=request.path)
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
-    readme_text = markdown.markdown(getFileContent("./text/" + subpath))
-    return render_template("wiki.html", content=readme_text, path=request.path)
+    filetext = markdown.markdown(getFileContent("./text/" + subpath))
+    return render_template("wiki.html", content=Markup(filetext), path=request.path)
 
 def getFileContent(filepath):
     print(f"trying to open file {filepath}")
