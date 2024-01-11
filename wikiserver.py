@@ -57,6 +57,9 @@ def buildSiteMap(subpath):
             parent = "/" + parent
         res.append(f"<li><a href='/sitemap{parent}'>..</a></li>")
 
+    dirs.sort()
+    files.sort()
+
     for dir in dirs:
         path = "<li><b><a href='/sitemap"
         if(subpath != ""):

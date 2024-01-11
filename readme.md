@@ -1,13 +1,12 @@
 # MarkWiki
-Basic wiki-like interface for a set of markdown files.
+Basic wiki-like interface for a set of markdown files. Drop all your markdown into `/text`.
 
 ## Features
-I threw this together in 2 hours, not many features
-
-- file based routing. a markdown file under text/tech/ai.md will be served at /tech/ai.html
-- sitemap-like *ul* with all entries
-- no editing, only viewing
+- automatically generated sitemap per directory with navigation options
 - markdown rendering via [python-markdown](https://www.linode.com/docs/guides/how-to-use-python-markdown-to-convert-markdown-to-html/)
+- no editing, just viewing
+- relative in-markdown links work
+- does not support images or other flavours of markdown
 
 ## Installation
 1. install the latest python
@@ -15,11 +14,5 @@ I threw this together in 2 hours, not many features
 3. install markdown via `pip install markdown`
 4. run a developer server with `flask --app wikiserver run`
 
-Simply place all markdown files and directories in `/text`.
-
-
-## Static Pages
-Top level pages have to be static. They contain the following:
-
-- [/](/): this page
-- [/sitemap](/sitemap): dynamic sitemap that links to all entries in a *ul* sort of style
+## Planned Features
+- automatic table of contents creation with a sidebar
