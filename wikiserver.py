@@ -21,7 +21,7 @@ def sitemap(subpath):
 @app.get("/text/<path:subpath>")
 def read(subpath):
     readme_text = markdown.markdown(getFileContent("./text/" + subpath))
-    return render_template("wiki.html", content=readme_text, path=request.path.replace("/text", "", 1))
+    return render_template("wiki.html", content=readme_text, path=request.path)
 
 def getFileContent(filepath):
     print(f"trying to open file {filepath}")
@@ -46,6 +46,15 @@ def buildSiteMap(subpath):
             dirs.append(entry)
         elif(os.path.isfile(path) and entry.endswith(".md")):
             files.append(entry)
+    
+    if(subpath != ""):
+        parent = subpath.split("/")
+        parent.pop()
+        parent = "/".join(parent)
+        print("current subpath:",subpath, "parent:", parent)
+        if(parent != ""):
+            parent = "/" + parent
+        res.append(f"<li><a href='/sitemap{parent}'>..</a></li>")
 
     for dir in dirs:
         path = "<li><b><a href='/sitemap"
