@@ -10,8 +10,12 @@ def index():
     return render_template("wiki.html", content=readme_text, path=request.path)
 
 @app.get("/sitemap")
-def sitemap():
-    cont = buildSiteMap()
+def mainsitemap():
+    return sitemap("")
+
+@app.get("/sitemap/<path:subpath>")
+def sitemap(subpath):
+    cont = buildSiteMap(subpath)
     return render_template("wiki.html", content=cont, path=request.path)
 
 @app.get("/text/<path:subpath>")
@@ -29,13 +33,32 @@ def getFileContent(filepath):
         text = input_file.read();
     return text;
 
-def buildSiteMap():
+def buildSiteMap(subpath):
     res = ['<h2>Sitemap</h2>','<ul>']
 
-    for root, dirs, files in os.walk("text"):
-        for file in files:
-            path = root + "\\" +file
-            path = path.replace("\\", "/")
-            res.append(f"<li><a href='{path}'>{path.replace("text", "", 1)}</a></li>")
+    dirs = []
+    files = []
+
+    combined = "./text/" + subpath
+    for entry in os.listdir(combined):
+        path = combined + "/" + entry
+        if(os.path.isdir(path)):
+            dirs.append(entry)
+        elif(os.path.isfile(path) and entry.endswith(".md")):
+            files.append(entry)
+
+    for dir in dirs:
+        path = "<li><b><a href='/sitemap"
+        if(subpath != ""):
+            path = path + "/"+subpath
+        path = f"{path}/{dir}'>{dir}</a></b></li>"
+        res.append(path)
+    for fle in files:
+        path = "<li><i><a href='/text"
+        if(subpath != ""):
+            path = path + "/"+subpath
+        path = f"{path}/{fle}'>{fle}</a></i></li>"
+        res.append(path)
+
     res.append('</ul>')
     return ' '.join(res)
