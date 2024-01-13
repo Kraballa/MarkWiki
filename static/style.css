@@ -7,11 +7,21 @@ html {
     background-color: var(--bg-color);
 }
 
-body {margin: 0;}
-a {color: var(--color-accent1);}
-div.bottombar a {color: var(--color-light);}
+body {
+    margin: 0;
+}
 
-p {text-align: justify;}
+a {
+    color: var(--color-accent1);
+}
+
+div.bottombar a {
+    color: var(--color-light);
+}
+
+p {
+    text-align: justify;
+}
 
 nav {
     background-color: var(--color-accent1);
@@ -40,10 +50,44 @@ table {
     align-self: center;
 }
 
-tr:nth-child(even) {background-color: #82828224;}
-tr,td,th {padding: 6px 12px 6px 6px;}
-.content {padding: 0 1em 1em 1em;}
-.h1 {border-bottom: 2px solid var(--color-accent1);}
+tr:nth-child(even) {
+    background-color: #82828224;
+}
+
+tr,
+td,
+th {
+    padding: 6px 12px 6px 6px;
+}
+
+.body {
+    display: flex;
+}
+
+.toc {
+    width: 250px;
+    float: right;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 3px;
+    z-index: 100;
+    margin-left: 1em;
+    padding: 5px;
+}
+
+.toc ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.content {
+    padding-bottom: 1em;
+    z-index: 90;
+    text-align: justify;
+}
+
+.h1 {
+    border-bottom: 2px solid var(--color-accent1);
+}
 
 .bottombar {
     text-align: center;

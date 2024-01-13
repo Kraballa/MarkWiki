@@ -5,10 +5,12 @@ import os
 
 app = Flask(__name__)
 
+md = markdown.Markdown(extensions=['toc'])
+
 @app.get("/")
 def index():
-    readme_text = markdown.markdown(getFileContent("readme.md"))
-    return render_template("wiki.html", content=Markup(readme_text), path=request.path)
+    text, toc = parseMarkdown("readme.md")
+    return render_template("wiki.html", content=Markup(text), path=request.path,toc=Markup(toc))
 
 @app.get("/sitemap")
 def mainsitemap():
@@ -21,18 +23,22 @@ def sitemap(subpath):
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
-    filetext = markdown.markdown(getFileContent("./text/" + subpath))
-    return render_template("wiki.html", content=Markup(filetext), path=request.path)
+    filetext, toc = parseMarkdown("./text/" + subpath)
+    return render_template("wiki.html", content=Markup(filetext), path=request.path, toc=Markup(toc))
 
-def getFileContent(filepath):
-    print(f"trying to open file {filepath}")
+def parseMarkdown(filepath):
     if not os.path.exists(filepath):
-        return "<p>file not found</p>"
+        return "<p>file not found</p>", ""
     if not filepath.endswith(".md"):
-        return "<p>filetype not supported</p>"
+        return "<p>filetype not supported</p>", ""
     with open(filepath, "r") as input_file:
         text = input_file.read();
-    return text;
+    html = md.convert(text)
+    toc = md.toc
+    # this is a bit jank but docs are lacking
+    if(toc.startswith('<div class="toc">\n<ul></ul>\n</div>')):
+        toc = ""
+    return html, toc;
 
 def buildSiteMap(subpath):
     res = ['<h2>Sitemap</h2>','<ul>']
@@ -52,7 +58,6 @@ def buildSiteMap(subpath):
         parent = subpath.split("/")
         parent.pop()
         parent = "/".join(parent)
-        print("current subpath:",subpath, "parent:", parent)
         if(parent != ""):
             parent = "/" + parent
         res.append(f"<li><a href='/sitemap{parent}'>..</a></li>")
