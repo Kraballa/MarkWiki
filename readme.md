@@ -3,10 +3,10 @@ Basic wiki-like interface for a set of markdown files. Drop all your markdown in
 
 ## Features
 - automatically generated sitemap per directory with navigation options
-- markdown rendering via [python-markdown](https://www.linode.com/docs/guides/how-to-use-python-markdown-to-convert-markdown-to-html/)
+- markdown rendering via [python-markdown](https://www.linode.com/docs/guides/how-to-use-python-markdown-to-convert-markdown-to-html/) with a few extensions
 - no editing, just viewing
 - relative in-markdown links work
-- does not support images or other flavours of markdown
+- image support
 
 ## Installation
 1. install the latest python
@@ -15,4 +15,5 @@ Basic wiki-like interface for a set of markdown files. Drop all your markdown in
 4. run a developer server with `flask --app wikiserver run`
 
 ## Planned Features
-- automatic table of contents creation with a sidebar
+- [x] automatic table of contents creation with a sidebar
+- [ ] sidebar with newest and most recently changed files
