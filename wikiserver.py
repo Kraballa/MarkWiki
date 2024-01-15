@@ -69,17 +69,17 @@ def buildSiteMap(subpath):
     files.sort()
 
     for dir in dirs:
-        path = "<li><b><a href='/sitemap"
+        path = "<li><p><b><a href='/sitemap"
         if(subpath != ""):
             path = path + "/"+subpath
         path = f"{path}/{dir}'>{dir}</a></b></li>"
         res.append(path)
     for fle in files:
-        path = "<li><i><a href='/text"
+        path = "<li><p><i><a href='/text"
         if(subpath != ""):
             path = path + "/"+subpath
         path = f"{path}/{fle}'>{fle}</a></i></li>"
         res.append(path)
 
-    res.append('</ul>')
+    res.append('</p></ul>')
     return ' '.join(res)
