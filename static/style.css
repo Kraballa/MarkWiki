@@ -79,6 +79,10 @@ th {
     margin: 0;
 }
 
+.toc {
+    text-align: start;
+}
+
 li > p, ol > li {
     margin: 0 0 0.3em 0;
 }
