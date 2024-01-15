@@ -27,6 +27,7 @@ def read(subpath):
     return render_template("wiki.html", content=Markup(filetext), path=request.path, toc=Markup(toc))
 
 def parseMarkdown(filepath):
+    md.reset()
     if not os.path.exists(filepath):
         return "<p>file not found</p>", ""
     if not filepath.endswith(".md"):
