@@ -79,11 +79,7 @@ th {
     margin: 0;
 }
 
-li > p {
-    margin: 0 0 0.3em 0;
-}
-
-ol > li {
+li > p, ol > li {
     margin: 0 0 0.3em 0;
 }
 
