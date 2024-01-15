@@ -7,7 +7,6 @@ class NewLiner(Preprocessor):
         for line in lines:
             if len(line) > 0:
                 if(line.startswith("*") or line.startswith("1.") or line.startswith("-")):
-                    print("adding newline")
                     new_lines.append("")
             new_lines.append(line)
         return new_lines
