@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_file, make_response
 from markupsafe import Markup
 from addnewline import NewLineExtension
 
@@ -25,7 +25,13 @@ def sitemap(subpath):
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
-    filetext, toc = parseMarkdown("./text/" + subpath)
+    path = "./text/" + subpath
+    if not subpath.endswith(".md"):
+        if os.path.exists(path):
+            return send_file(path)
+        make_response("", 404)
+
+    filetext, toc = parseMarkdown(path)
     return render_template("wiki.html", content=Markup(filetext), path=request.path, toc=Markup(toc))
 
 def parseMarkdown(filepath):
@@ -35,13 +41,13 @@ def parseMarkdown(filepath):
     if not filepath.endswith(".md"):
         return "<p>filetype not supported</p>", ""
     with open(filepath, "r") as input_file:
-        text = input_file.read();
+        text = input_file.read()
     html = md.convert(text)
     toc = md.toc
     # this is a bit jank but docs are lacking
     if(toc.startswith('<div class="toc">\n<ul></ul>\n</div>')):
         toc = ""
-    return html, toc;
+    return html, toc
 
 def buildSiteMap(subpath):
     res = ['<h2>Sitemap</h2>','<ul>']

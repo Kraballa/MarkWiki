@@ -72,15 +72,12 @@ th {
     z-index: 100;
     margin-left: 1em;
     padding: 5px;
+    text-align: start;
 }
 
 .toc ul {
     padding-left: 20px;
     margin: 0;
-}
-
-.toc {
-    text-align: start;
 }
 
 li > p, ol > li {
