@@ -1,11 +1,13 @@
 from flask import Flask, request, render_template
 from markupsafe import Markup
+from addnewline import NewLineExtension
+
 import markdown
 import os
 
 app = Flask(__name__)
 
-md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code'])
+md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', NewLineExtension()])
 
 @app.get("/")
 def index():
