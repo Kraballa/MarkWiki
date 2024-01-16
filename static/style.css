@@ -87,11 +87,6 @@ li > p, ol > li {
 .content {
     padding: 0 0.5em 1em;
     z-index: 90;
-    text-align: justify;
-}
-
-.h1 {
-    border-bottom: 2px solid var(--color-accent1);
 }
 
 .bottombar {
