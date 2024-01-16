@@ -73,8 +73,8 @@ th {
 .toc {
     width: 30%;
     float: right;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 3px;
+    border: 2px solid var(--text-color);
+    border-radius: 2px;
     z-index: 100;
     margin-left: 1em;
     padding: 5px;
