@@ -1,5 +1,5 @@
 # MarkWiki
-Basic wiki-like interface for a set of markdown files. Drop all your markdown into `/text`.
+Basic wiki-like interface for a set of markdown files. Drop all your markdown into `/text`. This file serves as a readme for GitHub as well as the homepage of the Wiki.
 
 ## Features
 - automatically generated sitemap per directory with navigation options
