@@ -52,27 +52,10 @@ def parseMarkdown(filepath):
 def buildSiteMap(subpath):
     res = ['<h2>Sitemap</h2>','<ul>']
 
-    dirs = []
-    files = []
-
-    combined = "./text/" + subpath
-    for entry in os.listdir(combined):
-        path = combined + "/" + entry
-        if(os.path.isdir(path)):
-            dirs.append(entry)
-        elif(os.path.isfile(path) and entry.endswith(".md")):
-            files.append(entry)
+    dirs, files = getDirsAndFiles(subpath)    
     
     if(subpath != ""):
-        parent = subpath.split("/")
-        parent.pop()
-        parent = "/".join(parent)
-        if(parent != ""):
-            parent = "/" + parent
-        res.append(f"<li><a href='/sitemap{parent}'>..</a></li>")
-
-    dirs.sort()
-    files.sort()
+        res.append(buildParentLink(subpath))
 
     for dir in dirs:
         path = "<li><b><a href='/sitemap"
@@ -89,3 +72,26 @@ def buildSiteMap(subpath):
 
     res.append('</ul>')
     return ' '.join(res)
+
+# generate sorted lists of all directories and files on a path
+def getDirsAndFiles(subpath):
+    dirs = []
+    files = []
+    combined = "./text/" + subpath
+    for entry in os.listdir(combined):
+        path = combined + "/" + entry
+        if(os.path.isdir(path)):
+            dirs.append(entry)
+        elif(os.path.isfile(path) and entry.endswith(".md")):
+            files.append(entry)
+    dirs.sort()
+    files.sort()
+    return dirs, files
+
+def buildParentLink(subpath):
+    parent = subpath.split("/")
+    parent.pop()
+    parent = "/".join(parent)
+    if(parent != ""):
+        parent = "/" + parent
+    return f"<li><a href='/sitemap{parent}'>..</a></li>"
