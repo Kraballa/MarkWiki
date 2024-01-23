@@ -2,11 +2,12 @@
 Basic wiki-like interface for a set of markdown files. Create a folder called `text` inside this directory and paste all your markdown files. This file serves as a readme for GitHub as well as the homepage of the Wiki.
 
 ## Features
-- automatically generated sitemap per directory with navigation options
 - markdown rendering via [python-markdown](https://www.linode.com/docs/guides/how-to-use-python-markdown-to-convert-markdown-to-html/) with a few extensions
-- no editing, just viewing
-- relative in-markdown links work
-- image support
+- automatic table-of-contents generation
+- directory viewing and navigation (sitemap)
+- support for relative links inside markdown and images
+
+There is currently no support for in-browser editing.
 
 ## Paths
 - `/`: renders this readme
@@ -24,3 +25,8 @@ Basic wiki-like interface for a set of markdown files. Create a folder called `t
 ## Planned Features
 - [x] automatic table of contents creation with a sidebar
 - [ ] sidebar with newest and most recently changed files
+
+## Demo
+This is how the interface looks:
+
+![img](static/demo.png)
