@@ -12,7 +12,7 @@ md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', 'meta', NewLi
 @app.get("/")
 def index():
     text, toc = parseMarkdown("readme.md")
-    return render_template("wiki.html", content=Markup(text), path=request.path,toc=Markup(toc))
+    return render_template("wiki.html", content=Markup(text), path=request.path,toc=Markup(toc), raw="")
 
 @app.get("/sitemap")
 def mainsitemap():
@@ -21,25 +21,35 @@ def mainsitemap():
 @app.get("/sitemap/<path:subpath>")
 def sitemap(subpath):
     cont = buildSiteMap(subpath)
-    return render_template("wiki.html", content=Markup(cont), path=request.path)
+    return render_template("wiki.html", content=Markup(cont), path=request.path, raw="")
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
     path = "./text/" + subpath
+
+    if not os.path.exists(path):
+        return make_response("", 404)
+
     if not subpath.endswith(".md"):
-        if os.path.exists(path):
-            return send_file(path)
-        make_response("", 404)
+        return send_file(path)
 
     filetext, toc = parseMarkdown(path)
-    return render_template("wiki.html", content=Markup(filetext), path=request.path, toc=Markup(toc))
+    return render_template("wiki.html", content=Markup(filetext), path=request.path, toc=Markup(toc), raw=buildPathToRaw(subpath))
+
+@app.get("/raw/<path:subpath>")
+def readPlain(subpath):
+    path = "./text/" + subpath
+    if(not os.path.exists(path)):
+        return make_response("", 404)
+    
+    with open(path, "r") as input_file:
+        text = input_file.read()
+    response = make_response(text, 200)
+    response.mimetype = "text/plain"
+    return response
 
 def parseMarkdown(filepath):
     md.reset()
-    if not os.path.exists(filepath):
-        return "<p>file not found</p>", ""
-    if not filepath.endswith(".md"):
-        return "<p>filetype not supported</p>", ""
     with open(filepath, "r") as input_file:
         text = input_file.read()
     html = md.convert(text)
@@ -95,3 +105,7 @@ def buildParentLink(subpath):
     if(parent != ""):
         parent = "/" + parent
     return f"<li><a href='/sitemap{parent}'>..</a></li>"
+
+def buildPathToRaw(subpath):
+    link = f"<a href='/raw/{subpath}'>Raw</a>\n|\n"
+    return Markup(link)

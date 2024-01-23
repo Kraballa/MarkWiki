@@ -1,5 +1,5 @@
 # MarkWiki
-Basic wiki-like interface for a set of markdown files. Drop all your markdown into `/text`. This file serves as a readme for GitHub as well as the homepage of the Wiki.
+Basic wiki-like interface for a set of markdown files. Create a folder called `text` inside this directory and paste all your markdown files. This file serves as a readme for GitHub as well as the homepage of the Wiki.
 
 ## Features
 - automatically generated sitemap per directory with navigation options
@@ -7,6 +7,13 @@ Basic wiki-like interface for a set of markdown files. Drop all your markdown in
 - no editing, just viewing
 - relative in-markdown links work
 - image support
+
+## Paths
+- `/`: renders this readme
+- `/text/<subpath>`: renders a markdown file if it can find one
+- `/sitemap`: links to all files and folders of the topmost folder aka. `/text`
+- `/sitemap/<subpath>`: links to all files and folders in the subpath
+- `/raw/<subpath>`: like `/text` but returns the raw file content
 
 ## Installation
 1. install the latest python
