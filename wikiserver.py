@@ -68,13 +68,13 @@ def buildSiteMap(subpath):
         res.append(buildParentLink(subpath))
 
     for dir in dirs:
-        path = "<li><b><a href='/sitemap"
+        path = "<li>&#x1F4C1;<b><a href='/sitemap"
         if(subpath != ""):
             path = path + "/"+subpath
         path = f"{path}/{dir}'>{dir}</a></b></li>"
         res.append(path)
     for fle in files:
-        path = "<li><i><a href='/text"
+        path = "<li>&#x1F4C4;<i><a href='/text"
         if(subpath != ""):
             path = path + "/"+subpath
         path = f"{path}/{fle}'>{fle}</a></i></li>"
@@ -104,7 +104,7 @@ def buildParentLink(subpath):
     parent = "/".join(parent)
     if(parent != ""):
         parent = "/" + parent
-    return f"<li><a href='/sitemap{parent}'>..</a></li>"
+    return f"<li>&#x1F4C1;<b><a href='/sitemap{parent}'>parent folder</a></b></li>"
 
 def buildPathToRaw(subpath):
     link = f"<a href='/raw/{subpath}'>Raw</a>\n|\n"
