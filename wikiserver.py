@@ -42,7 +42,7 @@ def readPlain(subpath):
     if(not os.path.exists(path)):
         return make_response("", 404)
     
-    with open(path, "r") as input_file:
+    with open(path, "r", encoding="utf-8") as input_file:
         text = input_file.read()
     response = make_response(text, 200)
     response.mimetype = "text/plain"
@@ -50,7 +50,7 @@ def readPlain(subpath):
 
 def parseMarkdown(filepath):
     md.reset()
-    with open(filepath, "r") as input_file:
+    with open(filepath, "r", encoding="utf-8") as input_file:
         text = input_file.read()
     html = md.convert(text)
     toc = md.toc
