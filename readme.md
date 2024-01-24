@@ -2,7 +2,7 @@
 Basic wiki-like interface for a set of markdown files. Create a folder called `text` inside this directory and paste all your markdown files. This file serves as a readme for GitHub as well as the homepage of the Wiki.
 
 ## Features
-- markdown rendering via [python-markdown](https://www.linode.com/docs/guides/how-to-use-python-markdown-to-convert-markdown-to-html/) with a few extensions
+- markdown rendering via [python-markdown](https://python-markdown.github.io/) with a few extensions
 - automatic table-of-contents generation
 - directory viewing and navigation (sitemap)
 - support for relative links inside markdown and images
