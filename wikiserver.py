@@ -12,7 +12,7 @@ md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', 'meta', 'sane
 @app.get("/")
 def index():
     text, toc = parseMarkdown("readme.md")
-    return render_template("wiki.html", content=Markup(text), path=request.path,toc=Markup(toc), raw="")
+    return render_template("wiki.html", content=Markup(text), path="/",toc=Markup(toc), raw="")
 
 @app.get("/sitemap")
 def mainsitemap():
@@ -21,7 +21,7 @@ def mainsitemap():
 @app.get("/sitemap/<path:subpath>")
 def sitemap(subpath):
     cont = buildSiteMap(subpath)
-    return render_template("wiki.html", content=Markup(cont), path=request.path, raw="")
+    return render_template("wiki.html", content=Markup(cont), path=request.path.replace("/sitemap", "", 1), raw="")
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
@@ -34,7 +34,7 @@ def read(subpath):
         return send_file(path)
 
     filetext, toc = parseMarkdown(path)
-    return render_template("wiki.html", content=Markup(filetext), path=request.path, toc=Markup(toc), raw=buildPathToRaw(subpath))
+    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(request.path), toc=Markup(toc), raw=buildPathToRaw(subpath))
 
 @app.get("/raw/<path:subpath>")
 def readPlain(subpath):
@@ -108,4 +108,12 @@ def buildParentLink(subpath):
 
 def buildPathToRaw(subpath):
     link = f"<a href='/raw/{subpath}'>Raw</a>\n|\n"
+    return Markup(link)
+
+def sitemapToCurrentFolder(subpath):
+    parent = subpath.split("/")
+    this = parent.pop()
+    parent = "/".join(parent)
+    sitemapLink = parent.replace("/text", "/sitemap", 1)
+    link = f"<a href='{sitemapLink}'>{parent.replace("/text", "", 1)}</a>/{this}"
     return Markup(link)
