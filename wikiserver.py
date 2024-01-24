@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 
-md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', 'meta', NewLineExtension()])
+md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
 
 @app.get("/")
 def index():
