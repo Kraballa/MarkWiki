@@ -101,9 +101,8 @@ code {
     text-align: start;
 }
 
-.toc ul {
+ul, ol {
     padding-left: 20px;
-    margin: 0;
 }
 
 .icon {
