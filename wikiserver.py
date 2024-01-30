@@ -9,6 +9,10 @@ app = Flask(__name__)
 
 md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
 
+@app.get("/favicon.ico")
+def favicon():
+    return send_file("./static/favicon.ico")
+
 @app.get("/")
 def index():
     text, toc = parseMarkdown("readme.md")
