@@ -30,3 +30,5 @@ There is currently no support for in-browser editing.
 This is how the interface looks:
 
 ![img](static/demo.png)
+
+(it's super trippy seeing the app inside itself)

@@ -50,23 +50,23 @@ img {
 }
 
 table {
-    border: 1px solid gray;
+    
     border-collapse: collapse;
     align-self: center;
 }
 
-tr:nth-child(odd) {
+th, td {
+    border: 1px solid rgb(161, 161, 161);
+}
+
+tr:nth-child(even), thead {
     background-color: #82828224;
 }
 
 tr,
 td,
 th {
-    padding: 6px 12px 6px 6px;
-}
-
-li {
-    margin: 0 0 0.3em 0;
+    padding: 4px 8px 4px 4px;
 }
 
 pre {
@@ -74,7 +74,7 @@ pre {
     padding: 2px;
     border-radius: 5px;
 }
-/*this is sort of nasty but triple ` code blocks get wrapped as pre > code, applying both styles. */
+/* this is sort of nasty but triple ` code blocks get wrapped as pre > code, applying both styles. so we do this to get rid of the code styling */
 pre code {
     background-color: #00000000;
 }
@@ -83,6 +83,16 @@ code {
     background-color: #9f9f9f30;
     padding: 2px;
     border-radius: 5px;
+}
+
+ul, ol {
+    padding-left: 20px;
+    margin: 0.3em 0 0.3em 0;
+}
+
+/* this fixes everything related list margins including nested lists etc. */
+li {
+    margin-top: 0.3em;
 }
 
 .center {
@@ -101,8 +111,8 @@ code {
     text-align: start;
 }
 
-ul, ol {
-    padding-left: 20px;
+.toctitle {
+    font-size: larger;
 }
 
 .icon {

@@ -3,11 +3,12 @@ from markupsafe import Markup
 from addnewline import NewLineExtension
 
 import markdown
+from markdown.extensions.toc import TocExtension
 import os
 
 app = Flask(__name__)
 
-md = markdown.Markdown(extensions=['toc', 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
+md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
 
 @app.get("/favicon.ico")
 def favicon():
