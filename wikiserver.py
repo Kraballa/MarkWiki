@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, make_response
+from flask import Flask, request, render_template, send_file, make_response, redirect
 from markupsafe import Markup
 from addnewline import NewLineExtension
 
@@ -7,6 +7,11 @@ from markdown.extensions.toc import TocExtension
 import os
 
 app = Flask(__name__)
+
+# !IMPORTANT! if you want to allow editing, set this to true
+allow_editing = False
+no_edit_text = "403 forbidden: editing has been disabled by the host. if this is an error, edit the configuration of the server"
+not_found_text = "404 not found: the requested file has not been found"
 
 md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
 
@@ -17,7 +22,7 @@ def favicon():
 @app.get("/")
 def index():
     text, toc = parseMarkdown("readme.md")
-    return render_template("wiki.html", content=Markup(text), path="/",toc=Markup(toc), raw="")
+    return render_template("home.html", content=Markup(text), toc=Markup(toc))
 
 @app.get("/sitemap")
 def mainsitemap():
@@ -26,32 +31,61 @@ def mainsitemap():
 @app.get("/sitemap/<path:subpath>")
 def sitemap(subpath):
     cont = buildSiteMap(subpath)
-    return render_template("wiki.html", content=Markup(cont), path=request.path.replace("/sitemap", "", 1), raw="")
+    return render_template("home.html", content=Markup(cont), path=request.path.replace("/sitemap", "| ", 1))
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
     path = "./text/" + subpath
 
     if not os.path.exists(path):
-        return make_response("", 404)
+        return make_response(not_found_text, 404)
 
     if not subpath.endswith(".md"):
         return send_file(path)
 
     filetext, toc = parseMarkdown(path)
-    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(request.path), toc=Markup(toc), raw=buildPathToRaw(subpath))
+    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(request.path), toc=Markup(toc), raw=buildPathToRaw(subpath), edit=buildPathToEdit(subpath))
 
 @app.get("/raw/<path:subpath>")
 def readPlain(subpath):
     path = "./text/" + subpath
     if(not os.path.exists(path)):
-        return make_response("", 404)
+        return make_response(no_edit_text, 403)
     
     with open(path, "r", encoding="utf-8") as input_file:
         text = input_file.read()
     response = make_response(text, 200)
     response.mimetype = "text/plain"
     return response
+
+@app.get("/edit/<path:subpath>")
+def edit(subpath):
+    if not allow_editing:
+        return make_response(no_edit_text, 403)
+
+    path = "./text/" + subpath
+    if(not os.path.exists(path)):
+        return make_response(not_found_text, 404)
+    with open(path, "r", encoding="utf-8") as input_file:
+        text = input_file.read()
+    return render_template("edit.html", content=text, path=sitemapToCurrentFolder(request.path.replace("edit", "text", 1)), target=subpath)
+
+@app.post("/edit/<path:subpath>")
+def postEdit(subpath):
+    if not allow_editing:
+        return make_response(not_found_text, 404)
+    
+    print('submitted content to', subpath)
+    path = './text/' + subpath
+
+    if(not os.path.exists(path)):
+        return make_response(not_found_text, 404)
+
+    with open(path, "bw") as input_file:
+        input_file.write(request.form['content'].encode())
+
+    redir = request.path.replace("/edit", "/text", 1)
+    return redirect(redir,code=301)
 
 def parseMarkdown(filepath):
     md.reset()
@@ -73,11 +107,14 @@ def buildSiteMap(subpath):
         res.append(buildParentLink(subpath))
 
     for dir in dirs:
+        if dir.startswith('.'):
+            continue
         path = "<li><b><a href='/sitemap"
         if(subpath != ""):
             path = path + "/"+subpath
         path = f"{path}/{dir}'>&#x1F4C1;{dir}</a></b></li>"
         res.append(path)
+
     for fle in files:
         path = "<li><a href='/text"
         if(subpath != ""):
@@ -112,7 +149,11 @@ def buildParentLink(subpath):
     return f"<li><b><a href='/sitemap{parent}'>&#x1F4C1;..</a></b></li>"
 
 def buildPathToRaw(subpath):
-    link = f"<a href='/raw/{subpath}'>Raw</a>\n|\n"
+    link = f"<a href='/raw/{subpath}'>Raw</a>"
+    return Markup(link)
+
+def buildPathToEdit(subpath):
+    link = f"<a href='/edit/{subpath}'>Edit</a>"
     return Markup(link)
 
 def sitemapToCurrentFolder(subpath):

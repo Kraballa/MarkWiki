@@ -7,7 +7,7 @@ html {
     --color-bg-dark: rgb(30, 30, 31);
 
     --color-accent1: rgb(60, 78, 181);
-    --color-accent2: rgb(255, 244, 28);
+    --color-accent2: rgb(209, 128, 23);
 
     --content-maxwidth: 800px;
     color: var(--text-color);
@@ -127,6 +127,14 @@ li {
     z-index: 90;
 }
 
+.accent1 {
+    background-color: var(--color-accent1);
+}
+
+.accent2 {
+    background-color: var(--color-accent2);
+}
+
 #topbutton {
     display: none;
     position: fixed;
@@ -135,11 +143,6 @@ li {
     font-size: 14pt;
     padding: 3px 15px;
     z-index: 99;
-}
-
-#topnav,
-#bottombar {
-    background-color: var(--color-accent1);
 }
 
 #topnav {
@@ -158,4 +161,16 @@ li {
 {
     color: var(--color-text-dark);
     text-decoration: none;
+}
+
+#tarea {
+    margin-top: 1em;
+    resize: vertical;
+    width: 100%;
+    border-radius: 0;
+    border: 2px solid gray;
+    outline: none;
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }

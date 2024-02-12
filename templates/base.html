@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width">
+        <title>MarkWiki</title>
+        <meta name="viewport" content="initial-scale-1.5">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    </head>
+
+    <body>
+        <nav id="topnav" class="accent1">
+            <div class="center">
+                <a href="/">MarkWiki</a>
+                |
+                <a href="/sitemap">Sitemap</a>
+                {% block header %}
+                {% endblock %}
+            </div>
+        </nav>
+        <div class="content center">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="bottombar" class="accent1">
+            markdown-wiki project <br>
+            created by <a href="https://github.com/Kraballa">github.kraballa</a>
+        </div>
+        <button id="topbutton" onclick="topFunction()">top</button>
+
+        <script>
+            let button = document.getElementById("topbutton");
+            window.onscroll = function scrollFunction() {
+                if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                    button.style.display = "block";
+                } else {
+                    button.style.display = "none";
+                }
+            }
+
+            function topFunction() {
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+    </body>
+
+</html>

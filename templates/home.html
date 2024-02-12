@@ -1,15 +1,10 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    |
-    {{raw}} 
-    |
-    {{edit}}
-    |
     {{path}}
 {% endblock %}
 
-{% block content%}
+{% block content %}
     {{toc}}
     {{content}}
 {% endblock %}

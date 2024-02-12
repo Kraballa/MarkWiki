@@ -1,17 +1,17 @@
 # MarkWiki
-Basic wiki-like interface for a set of markdown files. Create a folder called `text` inside this directory and paste all your markdown files. This file serves as a readme for GitHub as well as the homepage of the Wiki.
+MarkWiki is a very simple single user wiki based on markdown. It is first and foremost a markdown renderer for a browser client but there's an opt-in feature to allow editing files in-browser as well. Though it isn't a complete system yet I hope to implement more small and simple features over time. 
 
 ## Features
 - markdown rendering via [python-markdown](https://python-markdown.github.io/) with a few extensions
 - automatic table-of-contents generation
 - directory viewing and navigation (sitemap)
 - support for relative links inside markdown and images
-
-There is currently no support for in-browser editing.
+- make changes to files and save them back to disk. I highly recommend using version control to backup changes as the server doesn't handle backups yet. simply have a second git repo inside the `/text/` folder.
 
 ## Paths
 - `/`: renders this readme
 - `/text/<subpath>`: renders a markdown file if it can find one
+- `/edit/<subpath>`: presents a textarea with the file content. POSTing to this path will write the changes to disk
 - `/sitemap`: links to all files and folders of the topmost folder aka. `/text`
 - `/sitemap/<subpath>`: links to all files and folders in the subpath
 - `/raw/<subpath>`: like `/text` but returns the raw file content
