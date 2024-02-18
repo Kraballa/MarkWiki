@@ -9,6 +9,8 @@ html {
     --color-accent1: rgb(60, 78, 181);
     --color-accent2: rgb(209, 128, 23);
 
+    --color-links: rgb(83, 108, 250);
+
     --content-maxwidth: 800px;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -19,12 +21,20 @@ html {
         --text-color: var(--color-text-light);
         --bg-color: var(--color-bg-light);
     }
+
+    a {
+        color: var(--color-accent1);
+    }
 }
 
 @media (prefers-color-scheme: dark) {
     html {
         --text-color: var(--color-text-dark);
         --bg-color: var(--color-bg-dark);
+    }
+
+    a {
+        color: var(--color-links);
     }
 }
 
@@ -33,7 +43,6 @@ body {
 }
 
 a {
-    color: var(--color-accent1);
     text-decoration: none;
 }
 
@@ -50,16 +59,18 @@ img {
 }
 
 table {
-    
+
     border-collapse: collapse;
     align-self: center;
 }
 
-th, td {
+th,
+td {
     border: 1px solid rgb(161, 161, 161);
 }
 
-tr:nth-child(even), thead {
+tr:nth-child(even),
+thead {
     background-color: #82828224;
 }
 
@@ -74,6 +85,7 @@ pre {
     padding: 2px;
     border-radius: 5px;
 }
+
 /* this is sort of nasty but triple ` code blocks get wrapped as pre > code, applying both styles. so we do this to get rid of the code styling */
 pre code {
     background-color: #00000000;
@@ -85,7 +97,8 @@ code {
     border-radius: 5px;
 }
 
-ul, ol {
+ul,
+ol {
     padding-left: 20px;
     margin: 0.3em 0 0.3em 0;
 }
@@ -157,8 +170,7 @@ li {
 #topnav,
 #bottombar,
 #topnav a,
-#bottombar a
-{
+#bottombar a {
     color: var(--color-text-dark);
     text-decoration: none;
 }
