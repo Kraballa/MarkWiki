@@ -27,7 +27,7 @@ def index():
 @app.get("/sitemap/")
 @app.get("/sitemap/<path:subpath>/")
 def sitemap(subpath=""):
-    cont = buildSiteMap(subpath)
+    cont = buildSiteMap(subpath + ("/" if subpath is not "" else ""))
     return render_template("home.html", content=Markup(cont), path=request.path.replace("/sitemap", "| ", 1))
 
 @app.get("/text/<path:subpath>")
@@ -94,31 +94,25 @@ def parseMarkdown(filepath):
     return html, toc
 
 def buildSiteMap(subpath):
-    res = ['<h2>Sitemap</h2>','<ul>']
+    res = ['<h2>Sitemap</h2><ul>']
 
     dirs, files = getDirsAndFiles(subpath)    
     
     if(subpath != ""):
         res.append(buildParentLink(subpath))
 
-    for dir in dirs:
-        if dir.startswith('.'):
-            continue
-        path = "<li><b><a href='/sitemap"
-        if(subpath != ""):
-            path = path + "/"+subpath
-        path = f"{path}/{dir}'>&#x1F4C1;{dir}</a></b></li>"
-        res.append(path)
+    for _dir in dirs:
+        res.append("<li><b><a href='/sitemap/")
+        res.append(subpath)
+        res.append(f"{_dir}'>&#x1F4C1;{_dir}</a></b></li>")
 
-    for fle in files:
-        path = "<li><a href='/text"
-        if(subpath != ""):
-            path = path + "/"+subpath
-        path = f"{path}/{fle}'>&#x1F4C4;{fle}</a></li>"
-        res.append(path)
+    for _file in files:
+        res.append("<li><a href='/text/")
+        res.append(subpath)
+        res.append(f"{_file}'>&#x1F4C4;{_file}</a></li>")
 
     res.append('</ul>')
-    return ' '.join(res)
+    return ''.join(res)
 
 # generate sorted lists of all directories and files on a path
 def getDirsAndFiles(subpath):
@@ -127,7 +121,7 @@ def getDirsAndFiles(subpath):
     combined = "./text/" + subpath
     for entry in os.listdir(combined):
         path = combined + "/" + entry
-        if(os.path.isdir(path)):
+        if os.path.isdir(path) and not entry.startswith("."):
             dirs.append(entry)
         elif(os.path.isfile(path) and entry.endswith(".md")):
             files.append(entry)
@@ -136,12 +130,8 @@ def getDirsAndFiles(subpath):
     return dirs, files
 
 def buildParentLink(subpath):
-    parent = subpath.split("/")
-    parent.pop()
-    parent = "/".join(parent)
-    if(parent != ""):
-        parent = "/" + parent
-    return f"<li><b><a href='/sitemap{parent}'>&#x1F4C1;..</a></b></li>"
+    _dir = os.path.dirname(subpath + "../")
+    return f"<li><b><a href='/sitemap/{_dir}'>&#x1F4C1;..</a></b></li>"
 
 def buildPathToRaw(subpath):
     link = f"<a href='/raw/{subpath}'>Raw</a>"
