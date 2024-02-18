@@ -33,7 +33,10 @@ def sitemap(subpath=""):
 @app.get("/text/<path:subpath>")
 def read(subpath):
     if not os.path.exists("." + request.path):
-        return make_response(not_found_text + request.path, 404)
+        if subpath.endswith(".md"):
+            return render_template("filecreate.html", path="/edit/" + subpath)
+        else:
+            return make_response(not_found_text + request.path, 404)
 
     if not subpath.endswith(".md"):
         return send_file("." + request.path)
@@ -59,10 +62,10 @@ def edit(subpath):
         return make_response(no_edit_text, 403)
 
     path = "./text/" + subpath
-    if(not os.path.exists(path)):
-        return make_response(not_found_text, 404)
-    with open(path, "r", encoding="utf-8") as input_file:
-        text = input_file.read()
+    text = ""
+    if(os.path.exists(path)):
+        with open(path, "r", encoding="utf-8") as input_file:
+            text = input_file.read()
     return render_template("edit.html", content=text, path=sitemapToCurrentFolder(subpath), target=subpath)
 
 @app.post("/edit/<path:subpath>")
@@ -70,11 +73,14 @@ def postEdit(subpath):
     if not allow_editing:
         return make_response(not_found_text, 404)
     
-    print('submitted content to', subpath)
     path = './text/' + subpath
-
+    # folders or file don't exist, make sure they do
     if(not os.path.exists(path)):
-        return make_response(not_found_text, 404)
+        _dir = "./text/" + os.path.dirname(subpath)
+        _file = os.path.basename(subpath)
+        print(f"dir: {_dir}, file: {_file}")
+        os.makedirs(_dir, exist_ok=True)
+        open(f"{_dir}/{_file}", "x").close()
 
     with open(path, "bw") as input_file:
         input_file.write(request.form['content'].encode())
