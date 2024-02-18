@@ -24,27 +24,22 @@ def index():
     text, toc = parseMarkdown("readme.md")
     return render_template("home.html", content=Markup(text), toc=Markup(toc))
 
-@app.get("/sitemap")
-def mainsitemap():
-    return sitemap("")
-
-@app.get("/sitemap/<path:subpath>")
-def sitemap(subpath):
+@app.get("/sitemap/")
+@app.get("/sitemap/<path:subpath>/")
+def sitemap(subpath=""):
     cont = buildSiteMap(subpath)
     return render_template("home.html", content=Markup(cont), path=request.path.replace("/sitemap", "| ", 1))
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
-    path = "./text/" + subpath
-
-    if not os.path.exists(path):
-        return make_response(not_found_text, 404)
+    if not os.path.exists("." + request.path):
+        return make_response(not_found_text + request.path, 404)
 
     if not subpath.endswith(".md"):
-        return send_file(path)
+        return send_file("." + request.path)
 
-    filetext, toc = parseMarkdown(path)
-    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(request.path), toc=Markup(toc), raw=buildPathToRaw(subpath), edit=buildPathToEdit(subpath))
+    filetext, toc = parseMarkdown("." + request.path)
+    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(subpath), toc=Markup(toc), raw=buildPathToRaw(subpath), edit=buildPathToEdit(subpath))
 
 @app.get("/raw/<path:subpath>")
 def readPlain(subpath):
@@ -68,7 +63,7 @@ def edit(subpath):
         return make_response(not_found_text, 404)
     with open(path, "r", encoding="utf-8") as input_file:
         text = input_file.read()
-    return render_template("edit.html", content=text, path=sitemapToCurrentFolder(request.path.replace("edit", "text", 1)), target=subpath)
+    return render_template("edit.html", content=text, path=sitemapToCurrentFolder(subpath), target=subpath)
 
 @app.post("/edit/<path:subpath>")
 def postEdit(subpath):
@@ -157,9 +152,7 @@ def buildPathToEdit(subpath):
     return Markup(link)
 
 def sitemapToCurrentFolder(subpath):
-    parent = subpath.split("/")
-    this = parent.pop()
-    parent = "/".join(parent)
-    sitemapLink = parent.replace("/text", "/sitemap", 1)
-    link = f"<a href='{sitemapLink}'>{parent.replace("/text", "", 1)}</a>/{this}"
+    _dir = os.path.dirname(subpath)
+    _file = os.path.basename(subpath)
+    link = f"<a href='/sitemap/{_dir}/'>{_dir}</a>/{_file}"
     return Markup(link)
