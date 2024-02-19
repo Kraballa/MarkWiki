@@ -23,7 +23,8 @@ MarkWiki primarily serves markdown files. Create a folder called `text` in this 
 1. install the latest python
 2. install flask via `pip install flask`
 3. install markdown via `pip install markdown`
-4. run a developer server with `flask --app wikiserver run`
+4. install markupsafe via `pip install markupsafe`
+5. run a developer server with `flask --app wikiserver run`
 
 ## Potential Future Features
 - sidebar with newest and most recently changed files, possibly one of the following:
