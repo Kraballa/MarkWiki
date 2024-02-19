@@ -28,7 +28,8 @@ def index():
 @app.get("/sitemap/<path:subpath>/")
 def sitemap(subpath=""):
     cont = buildSiteMap(subpath + ("/" if subpath is not "" else ""))
-    return render_template("home.html", content=cont, path=request.path.replace("/sitemap", "| ", 1))
+    path = "| " + subpath 
+    return render_template("home.html", content=cont, path=path)
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
@@ -85,7 +86,7 @@ def postEdit(subpath):
     with open(path, "bw") as input_file:
         input_file.write(request.form['content'].encode())
 
-    redir = request.path.replace("/edit", "/text", 1)
+    redir = "/text/" + subpath
     return redirect(redir,code=301)
 
 def parseMarkdown(filepath):
@@ -94,9 +95,6 @@ def parseMarkdown(filepath):
         text = input_file.read()
     html = md.convert(text)
     toc = md.toc
-    # this is a bit jank but docs are lacking
-    if(toc.startswith('<div class="toc">\n<ul></ul>\n</div>')):
-        toc = ""
     return html, toc
 
 def buildSiteMap(subpath):
@@ -118,7 +116,7 @@ def buildSiteMap(subpath):
         res.append(f"{_file}'>&#x1F4C4;{_file}</a></li>")
 
     res.append('</ul>')
-    return ''.join(res)
+    return Markup(''.join(res))
 
 # generate sorted lists of all directories and files on a path
 def getDirsAndFiles(subpath):
@@ -137,7 +135,7 @@ def getDirsAndFiles(subpath):
 
 def buildParentLink(subpath):
     _dir = os.path.dirname(subpath + "../")
-    return Markup(f"<li><b><a href='/sitemap/{_dir}'>&#x1F4C1;..</a></b></li>")
+    return f"<li><b><a href='/sitemap/{_dir}'>&#x1F4C1;..</a></b></li>"
 
 def buildPathToRaw(subpath):
     link = f"<a href='/raw/{subpath}'>Raw</a>"
