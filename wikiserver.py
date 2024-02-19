@@ -28,7 +28,7 @@ def index():
 @app.get("/sitemap/<path:subpath>/")
 def sitemap(subpath=""):
     cont = buildSiteMap(subpath + ("/" if subpath is not "" else ""))
-    return render_template("home.html", content=Markup(cont), path=request.path.replace("/sitemap", "| ", 1))
+    return render_template("home.html", content=cont, path=request.path.replace("/sitemap", "| ", 1))
 
 @app.get("/text/<path:subpath>")
 def read(subpath):
@@ -137,7 +137,7 @@ def getDirsAndFiles(subpath):
 
 def buildParentLink(subpath):
     _dir = os.path.dirname(subpath + "../")
-    return f"<li><b><a href='/sitemap/{_dir}'>&#x1F4C1;..</a></b></li>"
+    return Markup(f"<li><b><a href='/sitemap/{_dir}'>&#x1F4C1;..</a></b></li>")
 
 def buildPathToRaw(subpath):
     link = f"<a href='/raw/{subpath}'>Raw</a>"
