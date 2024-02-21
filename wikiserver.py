@@ -27,7 +27,7 @@ def index():
 @app.get("/sitemap/")
 @app.get("/sitemap/<path:subpath>/")
 def sitemap(subpath=""):
-    cont = buildSiteMap(subpath + ("/" if subpath is not "" else ""))
+    cont = buildSiteMap(subpath + ("/" if subpath != "" else ""))
     path = "| " + subpath 
     return render_template("home.html", content=cont, path=path)
 
