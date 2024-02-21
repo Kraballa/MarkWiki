@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_file, make_response, redirect
 from markupsafe import Markup
 from addnewline import NewLineExtension
+from timeago import time_ago
 
 import markdown
 from markdown.extensions.toc import TocExtension
@@ -56,6 +57,11 @@ def readPlain(subpath):
     response = make_response(text, 200)
     response.mimetype = "text/plain"
     return response
+
+@app.get("/changes/")
+def changes():
+    cont = buildChangesView()
+    return render_template("home.html", content=cont)
 
 @app.get("/edit/<path:subpath>")
 def edit(subpath):
@@ -118,8 +124,10 @@ def buildSiteMap(subpath):
     res.append('</ul>')
     return Markup(''.join(res))
 
-# generate sorted lists of all directories and files on a path
 def getDirsAndFiles(subpath):
+    """
+    generate sorted lists of all directories and files on a path
+    """
     dirs = []
     files = []
     combined = "./text/" + subpath
@@ -150,3 +158,39 @@ def sitemapToCurrentFolder(subpath):
     _file = os.path.basename(subpath)
     link = f"<a href='/sitemap/{_dir}/'>{_dir}</a>/{_file}"
     return Markup(link)
+
+def getRecentFileChanges():
+    """
+    get a sorted list of the recent changes to files
+    and how long ago the change was made
+    """
+    files = []
+    mtime = []
+
+    for root, _, contains in os.walk("text\\"):
+        for item in contains:
+            if not item.endswith(".md"):
+                continue
+            _file = str(os.path.join(root,item))
+            files.append(_file.replace("\\", "/"))
+            mtime.append(os.path.getmtime(_file))
+
+    def sortf(idx):
+        return -mtime[idx]
+    
+    def getEntry(idx):
+        return (str(files[idx]), time_ago(mtime[idx]))
+
+    indices = list(range(len(files)))
+    indices.sort(key=sortf)
+    indices = indices[0:10]
+    return list(map(getEntry, indices))
+
+def buildChangesView():
+    data = getRecentFileChanges()
+    res = ["<h3>Recent Modifications</h3>","<ul>"]
+    for path, timeStr in data:
+        res.append(f"<li><a href='/{path}'>{path}</a> - {timeStr}</li>")
+
+    res.append("</ul>")
+    return Markup(' '.join(res))

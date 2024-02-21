@@ -17,6 +17,7 @@ MarkWiki primarily serves markdown files. Create a folder called `text` in this 
 - `/edit/<subpath>`: presents a textarea with the file content. POSTing to this path will write the changes to disk.
 - `/sitemap/`: links to all files and folders of the topmost folder aka. `/text`
 - `/sitemap/<subpath>/`: links to all files and folders in the subpath
+- `/changes/`: get a list of the most recent changes
 - `/raw/<subpath>`: like `/text` but returns the raw file content
 
 ## Installation
@@ -27,9 +28,6 @@ MarkWiki primarily serves markdown files. Create a folder called `text` in this 
 5. run a developer server with `flask --app wikiserver run`
 
 ## Potential Future Features
-- sidebar with newest and most recently changed files, possibly one of the following:
-  - `/changes` route to see list of recently changed files
-  - `/changes/<subpath>` route to see specific changes done to files
 - some form of authentication or permission management, one of the following:
   - simple hardcoded passphrase when POSTing edits
   - less likely but maybe a more elaborate authentication system with reading/writing permissions
