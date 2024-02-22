@@ -7,6 +7,8 @@ MarkWiki is a very simple single user wiki based on markdown. It is first and fo
 - directory viewing and navigation (sitemap)
 - support for relative links inside markdown and images
 - make changes to files and save them back to disk. I highly recommend using version control to backup changes as the server doesn't handle backups yet. simply have a second git repo inside the `/text/` folder.
+- display some markdown metadata. currently supported data:
+    - 'tags' expects a space separated list of tags which will be displayed at the top of the page 
 
 ## Usage
 MarkWiki primarily serves markdown files. Create a folder called `text` in this directory and paste all your markdown. You can edit files either in the browser by clicking the `edit` link or in your favourite text editor. MarkWiki doesn't cache files so a simple reload refreshes the browser view. Wiki-like page creation is supported. File deletion or account/permission management is currently not supported.

@@ -14,6 +14,12 @@ allow_editing = False
 no_edit_text = "403 forbidden: editing has been disabled by the host. if this is an error, edit the configuration of the server"
 not_found_text = "404 not found: the requested file has not been found"
 
+new_file_template = """---
+title:
+tags:
+---
+"""
+
 md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
 
 @app.get("/favicon.ico")
@@ -69,7 +75,7 @@ def edit(subpath):
         return make_response(no_edit_text, 403)
 
     path = "./text/" + subpath
-    text = ""
+    text = new_file_template
     if(os.path.exists(path)):
         with open(path, "r", encoding="utf-8") as input_file:
             text = input_file.read()
@@ -101,6 +107,7 @@ def parseMarkdown(filepath):
         text = input_file.read()
     html = md.convert(text)
     toc = md.toc
+    html = buildMetaView(md.Meta) + html
     return html, toc
 
 def buildSiteMap(subpath):
@@ -194,3 +201,20 @@ def buildChangesView():
 
     res.append("</ul>")
     return Markup(' '.join(res))
+
+def buildMetaView(data: dict):
+    tags = []
+    # split and filter tags
+    if('tags' in data):
+        split = data['tags'][0].split(' ')
+        for tag in filter(None, split):
+            tags.append(tag)
+    
+    if(len(tags) == 0):
+        return ""
+
+    tagList = ["<ul class='tags'>"]
+    for tag in tags:
+        tagList.append(f"<li class='tag'>{tag}</li>")
+    tagList.append("</ul>")
+    return ' '.join(tagList)

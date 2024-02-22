@@ -103,6 +103,20 @@ ol {
     margin: 0.3em 0 0.3em 0;
 }
 
+ul.tags {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    font-size: smaller;
+}
+
+li.tag {
+    padding: 2px 6px;
+    border: 2px solid var(--color-accent1);
+    border-radius: 8px;
+    margin-right: 7px;
+}
+
 /* this fixes everything related list margins including nested lists etc. */
 li {
     margin-top: 0.3em;
