@@ -30,6 +30,10 @@ MarkWiki primarily serves markdown files. Create a folder called `text` in this 
 5. run a developer server with `flask --app wikiserver run`
 
 ## Potential Future Features
+- use markdown metadata. it already is getting stripped and parsed but not used yet
+  - decide which tags to use, possibly "title, description, tags" metadata fields
+  - add a new file template
+  - include metadata fields in render 
 - some form of authentication or permission management, one of the following:
   - simple hardcoded passphrase when POSTing edits
   - less likely but maybe a more elaborate authentication system with reading/writing permissions
