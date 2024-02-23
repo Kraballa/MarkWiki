@@ -82,8 +82,9 @@ th {
 
 pre {
     background-color: #9f9f9f30;
-    padding: 2px;
+    padding: 6px;
     border-radius: 5px;
+    display: inline-block;
 }
 
 /* this is sort of nasty but triple ` code blocks get wrapped as pre > code, applying both styles. so we do this to get rid of the code styling */

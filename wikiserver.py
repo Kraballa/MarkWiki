@@ -71,7 +71,7 @@ def changes():
 
 @app.get("/edit/<path:subpath>")
 def edit(subpath):
-    if not allow_editing:
+    if not allow_editing and not app.debug:
         return make_response(no_edit_text, 403)
 
     path = "./text/" + subpath
@@ -83,7 +83,7 @@ def edit(subpath):
 
 @app.post("/edit/<path:subpath>")
 def postEdit(subpath):
-    if not allow_editing:
+    if not allow_editing and not app.debug:
         return make_response(not_found_text, 404)
     
     path = './text/' + subpath
