@@ -1,40 +1,45 @@
 from datetime import datetime
 
-def time_ago(time=False):
+def time_ago(timestamp):
     """
     Get a datetime object or a int() Epoch timestamp and return a
     pretty string like 'an hour ago', 'Yesterday', '3 months ago',
     'just now', etc
     Modified from: https://gist.github.com/rosenhouse/a0307caf0a1d2b26116b
     """
-    now = datetime.utcnow()
-    diff = now - datetime.fromtimestamp(time)
+    # there is no universal way to get the local timezone
+    # so instead we rely on datetimes feature to infer timezone
+    # then recalc current datetime with the tzinfo
+    now = datetime.now()
+    timezone = now.astimezone().tzinfo
+    now = datetime.now(timezone)
+    delta = now - datetime.fromtimestamp(timestamp, timezone)
 
-    second_diff = diff.seconds
-    day_diff = diff.days
+    deltaSeconds = delta.seconds
+    deltaDays = delta.days
 
-    if day_diff < 0:
+    if deltaDays < 0:
         return ''
 
-    if day_diff == 0:
-        if second_diff < 10:
+    if deltaDays == 0:
+        if deltaSeconds < 10:
             return "just now"
-        if second_diff < 60:
-            return str(second_diff) + " seconds ago"
-        if second_diff < 120:
+        if deltaSeconds < 60:
+            return str(deltaSeconds) + " seconds ago"
+        if deltaSeconds < 120:
             return  "a minute ago"
-        if second_diff < 3600:
-            return str( int(second_diff / 60) ) + " minutes ago"
-        if second_diff < 7200:
+        if deltaSeconds < 3600:
+            return str( int(deltaSeconds / 60) ) + " minutes ago"
+        if deltaSeconds < 7200:
             return "an hour ago"
-        if second_diff < 86400:
-            return str( int(second_diff / 3600) ) + " hours ago"
-    if day_diff == 1:
+        if deltaSeconds < 86400:
+            return str( int(deltaSeconds / 3600) ) + " hours ago"
+    if deltaDays == 1:
         return "yesterday"
-    if day_diff < 7:
-        return str(day_diff) + " days ago"
-    if day_diff < 31:
-        return str(int(day_diff/7)) + " weeks ago"
-    if day_diff < 365:
-        return str(round(int(day_diff/30)),2) + " months ago"
-    return str(int(day_diff/365)) + " years ago"
+    if deltaDays < 7:
+        return str(deltaDays) + " days ago"
+    if deltaDays < 31:
+        return str(deltaDays/7) + " weeks ago"
+    if deltaDays < 365:
+        return str(round(deltaDays/30),2) + " months ago"
+    return str(deltaDays/365) + " years ago"
