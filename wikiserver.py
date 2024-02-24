@@ -179,7 +179,7 @@ def getRecentFileChanges():
             if not item.endswith(".md"):
                 continue
             _file = str(os.path.join(root,item))
-            files.append(_file.replace("\\", "/"))
+            files.append(_file.replace("\\", "/").replace("text/", ""))
             mtime.append(os.path.getmtime(_file))
 
     def sortf(idx):
