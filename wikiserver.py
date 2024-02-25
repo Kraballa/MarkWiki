@@ -197,7 +197,7 @@ def buildChangesView():
     data = getRecentFileChanges()
     res = ["<h3>Recent Modifications</h3>","<ul>"]
     for path, timeStr in data:
-        res.append(f"<li><a href='/{path}'>{path}</a> - {timeStr}</li>")
+        res.append(f"<li><a href='/text/{path}'>{path}</a> - {timeStr}</li>")
 
     res.append("</ul>")
     return Markup(' '.join(res))
