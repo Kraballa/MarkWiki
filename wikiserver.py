@@ -10,7 +10,9 @@ import os
 app = Flask(__name__)
 
 # !IMPORTANT! if you want to allow editing, set this to true
-allow_editing = False
+allow_editing = False or app.debug
+
+
 no_edit_text = "403 forbidden: editing has been disabled by the host. if this is an error, edit the configuration of the server"
 not_found_text = "404 not found: the requested file has not been found"
 
@@ -50,7 +52,7 @@ def read(subpath):
         return send_file("." + request.path)
 
     filetext, toc = parseMarkdown("." + request.path)
-    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(subpath), toc=Markup(toc), raw=buildPathToRaw(subpath), edit=buildPathToEdit(subpath))
+    return render_template("wiki.html", content=Markup(filetext), path=sitemapToCurrentFolder(subpath), toc=Markup(toc), raw=buildPathToRaw(subpath), edit=buildPathToEdit(subpath), can_edit=allow_editing)
 
 @app.get("/raw/<path:subpath>")
 def readPlain(subpath):
@@ -71,7 +73,7 @@ def changes():
 
 @app.get("/edit/<path:subpath>")
 def edit(subpath):
-    if not allow_editing and not app.debug:
+    if not allow_editing:
         return make_response(no_edit_text, 403)
 
     path = "./text/" + subpath
@@ -83,7 +85,7 @@ def edit(subpath):
 
 @app.post("/edit/<path:subpath>")
 def postEdit(subpath):
-    if not allow_editing and not app.debug:
+    if not allow_editing:
         return make_response(not_found_text, 404)
     
     path = './text/' + subpath
