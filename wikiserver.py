@@ -36,6 +36,9 @@ def index():
 @app.get("/sitemap/")
 @app.get("/sitemap/<path:subpath>/")
 def sitemap(subpath=""):
+    if(not os.path.exists("./text/" + subpath)):
+        return make_response(not_found_text, 404)
+
     cont = buildSiteMap(subpath + ("/" if subpath != "" else ""))
     path = "| " + subpath 
     return render_template("home.html", content=cont, path=path)
@@ -58,7 +61,7 @@ def read(subpath):
 def readPlain(subpath):
     path = "./text/" + subpath
     if(not os.path.exists(path)):
-        return make_response(no_edit_text, 403)
+        return make_response(not_found_text, 404)
     
     with open(path, "r", encoding="utf-8") as input_file:
         text = input_file.read()
@@ -86,7 +89,7 @@ def edit(subpath):
 @app.post("/edit/<path:subpath>")
 def postEdit(subpath):
     if not allow_editing:
-        return make_response(not_found_text, 404)
+        return make_response(no_edit_text, 403)
     
     path = './text/' + subpath
     # folders or file don't exist, make sure they do
