@@ -29,17 +29,17 @@ def time_ago(timestamp):
         if deltaSeconds < 120:
             return  "a minute ago"
         if deltaSeconds < 3600:
-            return str( int(deltaSeconds / 60) ) + " minutes ago"
+            return str( round(deltaSeconds / 60) ) + " minutes ago"
         if deltaSeconds < 7200:
             return "an hour ago"
         if deltaSeconds < 86400:
-            return str( int(deltaSeconds / 3600) ) + " hours ago"
+            return str( round(deltaSeconds / 3600) ) + " hours ago"
     if deltaDays == 1:
         return "yesterday"
-    if deltaDays < 7:
-        return str(deltaDays) + " days ago"
-    if deltaDays < 31:
-        return str(deltaDays/7) + " weeks ago"
+    if deltaDays < 14:
+        return str(round(deltaDays)) + " days ago"
+    if deltaDays < 62:
+        return str(round(deltaDays/7)) + " weeks ago"
     if deltaDays < 365:
         return str(round(deltaDays/30),2) + " months ago"
     return str(deltaDays/365) + " years ago"
