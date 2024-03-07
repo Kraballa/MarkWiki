@@ -16,11 +16,7 @@ allow_editing = False or app.debug
 no_edit_text = "403 forbidden: editing has been disabled by the host. if this is an error, edit the configuration of the server"
 not_found_text = "404 not found: the requested file has not been found"
 
-new_file_template = """---
-title:
-tags:
----
-"""
+new_file_template = "---\ntitle:\ntags:\n---\n"
 
 md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
 
