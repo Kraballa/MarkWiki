@@ -191,17 +191,18 @@ def getRecentFileChanges():
 
     indices = list(range(len(files)))
     indices.sort(key=sortf)
-    indices = indices[0:10]
+    indices = indices[0:20]
     return list(map(getEntry, indices))
 
 def buildChangesView():
     data = getRecentFileChanges()
-    res = ["<h3>Recent Modifications</h3>","<ul>"]
+    res = ["<h3>Recent Modifications</h3>"]
+    res.append("<table><tr><th>file</th><th>last changed</th></tr>")
     for path, timeStr in data:
-        res.append(f"<li><a href='/text/{path}'>{path}</a> - {timeStr}</li>")
+        res.append(f"<tr><td><a href='/text/{path}'>{path}</a></td><td>{timeStr}</td></tr>")
 
-    res.append("</ul>")
-    return Markup(' '.join(res))
+    res.append("</table>")
+    return Markup(''.join(res))
 
 def buildMetaView(data: dict):
     tags = []
