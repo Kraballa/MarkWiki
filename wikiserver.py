@@ -19,7 +19,7 @@ not_found_text = "404 not found: the requested file has not been found"
 
 new_file_template = "---\ntitle:\ntags:\n---\n"
 
-md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension(), CheckboxifyExtension()])
+md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', 'def_list', NewLineExtension(), CheckboxifyExtension()])
 
 @app.get("/favicon.ico")
 def favicon():

@@ -123,6 +123,10 @@ li {
     margin-top: 0.3em;
 }
 
+dt {
+    font-weight: bold;
+}
+
 /* you can't style disabled checkboxes so we have to do this hack */
 .content input[type=checkbox] {
     pointer-events: none;
