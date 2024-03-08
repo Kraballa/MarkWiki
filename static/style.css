@@ -124,7 +124,7 @@ li {
 }
 
 /* you can't style disabled checkboxes so we have to do this hack */
-input[type=checkbox] {
+.content input[type=checkbox] {
     pointer-events: none;
 }
 
