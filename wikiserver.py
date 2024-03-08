@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_file, make_response, redirect
 from markupsafe import Markup
 from addnewline import NewLineExtension
+from checkboxify import CheckboxifyExtension
 from timeago import time_ago
 
 import markdown
@@ -18,7 +19,7 @@ not_found_text = "404 not found: the requested file has not been found"
 
 new_file_template = "---\ntitle:\ntags:\n---\n"
 
-md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension()])
+md = markdown.Markdown(extensions=[TocExtension(title="Table of Contents"), 'tables', 'fenced_code', 'meta', 'sane_lists', NewLineExtension(), CheckboxifyExtension()])
 
 @app.get("/favicon.ico")
 def favicon():
