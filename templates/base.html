@@ -28,23 +28,6 @@
             markdown-wiki project <br>
             created by <a href="https://github.com/Kraballa">github.kraballa</a>
         </div>
-        <button id="topbutton" onclick="topFunction()">top</button>
-
-        <script>
-            let button = document.getElementById("topbutton");
-            window.onscroll = function scrollFunction() {
-                if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                    button.style.display = "block";
-                } else {
-                    button.style.display = "none";
-                }
-            }
-
-            function topFunction() {
-                document.body.scrollTop = 0; // For Safari
-                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-            }
-        </script>
     </body>
 
 </html>
