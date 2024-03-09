@@ -132,6 +132,10 @@ dt {
     pointer-events: none;
 }
 
+.content input[type=checkbox].semi {
+    accent-color: gray; /* firefox */
+}
+
 .center {
     max-width: var(--content-maxwidth);
     margin: auto;
