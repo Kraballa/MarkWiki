@@ -80,16 +80,9 @@ th {
     padding: 4px 8px 4px 4px;
 }
 
-pre {
-    background-color: #9f9f9f30;
-    padding: 6px;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-/* this is sort of nasty but triple ` code blocks get wrapped as pre > code, applying both styles. so we do this to get rid of the code styling */
 pre code {
-    background-color: #00000000;
+    padding: 6px;
+    display: inline-block;
 }
 
 code {
@@ -127,6 +120,14 @@ dt {
     font-weight: bold;
 }
 
+blockquote {
+    border-left: 3px solid var(--color-accent1);
+    background-color: #88888844;
+    margin: 0;
+    padding-left: 0.5em;
+    border-radius: 2px;
+}
+
 /* you can't style disabled checkboxes so we have to do this hack */
 .content input[type=checkbox] {
     pointer-events: none;
@@ -150,6 +151,7 @@ dt {
     margin-left: 1em;
     padding: 5px;
     text-align: start;
+    background-color: var(--bg-color);
 }
 
 /* table of contents is not displayed if it has no content content */
