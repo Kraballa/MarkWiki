@@ -11,7 +11,7 @@ MarkWiki is a very simple single user wiki based on markdown. It is first and fo
     - 'tags' expects a space separated list of tags which will be displayed at the top of the page 
 
 ## Usage
-MarkWiki primarily serves markdown files. Create a folder called `text` in this directory and paste all your markdown. You can edit files either in the browser by clicking the `edit` link or in your favourite text editor. MarkWiki doesn't cache files so a simple reload refreshes the browser view. Wiki-like page creation is supported. File deletion or account/permission management is currently not supported.
+MarkWiki primarily serves markdown files. Create a folder called `text` in this directory and paste all your markdown. You can edit files either in the browser by clicking the `edit` link or in your favourite text editor. MarkWiki doesn't cache files so a simple reload refreshes the browser view. Wiki-like page creation is supported. File deletion or account/permission management is currently not supported. You can read up on the supported syntax [here](./help.md)
 
 ## Paths
 - `/`: renders this readme

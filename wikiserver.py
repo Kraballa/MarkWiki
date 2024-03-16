@@ -30,6 +30,12 @@ def index():
     text, toc = parseMarkdown("readme.md")
     return render_template("home.html", content=Markup(text), toc=Markup(toc))
 
+@app.get("/help.md")
+def help():
+    text, toc = parseMarkdown("help.md")
+    return render_template("home.html", content=Markup(text), toc=Markup(toc))
+
+
 @app.get("/sitemap/")
 @app.get("/sitemap/<path:subpath>/")
 def sitemap(subpath=""):
