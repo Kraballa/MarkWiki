@@ -2,7 +2,7 @@
 This file serves as a reference for all supported markdown syntax.
 
 # Basics
-Markdown consists of simple syntax like `*cursive*` for *cursive*. You can also use `~~this~~` for ~~strikethrough~~ or `**bold**` for **bold**. A new paragraph starts by two newlines
+Markdown consists of simple syntax like `*cursive*` for *cursive*. You can also use `**bold**` for **bold**. A new paragraph starts by two newlines.
 
 Markdown is related to html and many html tags have markdown equivalents. Like headings or horizontal rulers. The equivalents to `h1` to `h6` are `#` to `######`.
 
@@ -20,15 +20,6 @@ This line above is a horizontal rule (hr) and you can create it with `---`
 - simply for demonstration
 
 There are a couple characters that start a list. `1.` and `1)` for ordered lists and `-`, `+` and `*` for unordered lists.
-
-## Loose Lists
-- list syntax also supports more complex ideas
-    - like sublists. simply indent the list by atleast 4 spaces.
-    
-    [x] you can have paragraphs as part of a list element
-- but as you can see that also changes the formatting of the list
-- there now is a margin between each element all thanks to the line marked with [x]
-- this is called a *loose* list and is a major point of confusion and even contention among developers working on markdown rendering
 
 # Extended Syntax
 To support more than the bare minimum of features we use several extensions.

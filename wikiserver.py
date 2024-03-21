@@ -13,7 +13,6 @@ app = Flask(__name__)
 # !IMPORTANT! if you want to allow editing, set this to true
 allow_editing = False or app.debug
 
-
 no_edit_text = "403 forbidden: editing has been disabled by the host. if this is an error, edit the configuration of the server"
 not_found_text = "404 not found: the requested file has not been found"
 
