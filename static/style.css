@@ -17,24 +17,18 @@ html {
 }
 
 @media (prefers-color-scheme: light) {
-    html {
+    :root {
         --text-color: var(--color-text-light);
         --bg-color: var(--color-bg-light);
-    }
-
-    a {
-        color: var(--color-accent1);
+        --link-color: var(--color-accent1);
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    html {
+    :root {
         --text-color: var(--color-text-dark);
         --bg-color: var(--color-bg-dark);
-    }
-
-    a {
-        color: var(--color-links);
+        --link-color: var(--color-links);
     }
 }
 
@@ -44,6 +38,7 @@ body {
 
 a {
     text-decoration: none;
+    color: var(--link-color);
 }
 
 a:hover {
