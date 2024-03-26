@@ -8,19 +8,50 @@
 {% block content %}
 <form method="post" id="edit-form" target="{{target}}">
     <textarea form="edit-form" name="content" id="tarea" rows="25" autofocus>{{content}}</textarea>
-    <input type="submit" value="save changes">
+    <input type="submit" value="save changes" onclick="removeUnloadSafety()">
     <a href="/help.md" style="float: right;" target="_blank">syntax reference</a>
 </form>
 <script>
-    let tarea = document.querySelector("#tarea");
+    const tarea = document.querySelector("#tarea");
     //move cursor to end
     tarea.selectionStart = tarea.value.length;
 
-    window.addEventListener('beforeunload', function (e) {
+    function onBeforeUnload(e) {
         // Cancel the event
+        console.log(e);
         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
         // Chrome requires returnValue to be set
         e.returnValue = 'Please save or backup your changes before leaving this page.';
+    }
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+
+    function removeUnloadSafety() {
+        window.removeEventListener('beforeunload', onBeforeUnload);
+    }
+</script>
+{% if enhance_editor %}
+<script>
+    const keymap = {
+        '(': { value: '()', pos: 1 },
+        '[': { value: '[]', pos: 1 },
+        '"': { value: '"', pos: 1 },
+        '`': { value: '``', pos: 1 },
+        '*': { value: '**', pos: 1 },
+        '_': { value: '__', pos: 1 },
+    }
+
+    tarea.addEventListener('keydown', event => {
+        if (keymap[event.key]) {
+            event.preventDefault();
+            const pos = tarea.selectionStart;
+            tarea.value = tarea.value.slice(0, pos) +
+                keymap[event.key].value +
+                tarea.value.slice(tarea.selectionEnd);
+
+            tarea.selectionStart = tarea.selectionEnd = pos + keymap[event.key].pos;
+        }
     });
 </script>
+{% endif %}
 {% endblock %}

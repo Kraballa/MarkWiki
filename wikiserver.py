@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 # !IMPORTANT! if you want to allow editing, set this to true
 allow_editing = False or app.debug
+enhance_editor = True
 
 no_edit_text = "403 forbidden: editing has been disabled by the host. if this is an error, edit the configuration of the server"
 not_found_text = "404 not found: the requested file has not been found"
@@ -86,7 +87,7 @@ def edit(subpath):
     if(os.path.exists(path)):
         with open(path, "r", encoding="utf-8") as input_file:
             text = input_file.read()
-    return render_template("edit.html", content=text, path=sitemapToCurrentFolder(subpath), target=subpath)
+    return render_template("edit.html", content=text, path=sitemapToCurrentFolder(subpath), target=subpath, enhance_editor=enhance_editor)
 
 @app.post("/edit/<path:subpath>")
 def postEdit(subpath):
