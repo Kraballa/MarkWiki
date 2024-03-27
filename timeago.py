@@ -41,5 +41,5 @@ def time_ago(timestamp):
     if deltaDays < 62:
         return str(round(deltaDays/7)) + " weeks ago"
     if deltaDays < 365:
-        return str(round(deltaDays/30),2) + " months ago"
+        return str(round(deltaDays/30)) + " months ago"
     return str(deltaDays/365) + " years ago"
