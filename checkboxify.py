@@ -12,7 +12,7 @@ class Checkboxifier(Preprocessor):
             if line.startswith("- [ ]"):
                 new_lines.append(f"<input type='checkbox'/> {line[6:]}<br>")
             elif line.startswith("- [x]"):
-                new_lines.append(f"<input type='checkbox' checked/> {line[6:]}<br>")
+                new_lines.append(f"<input type='checkbox' checked/> <span class='dim'>{line[6:]}</span><br>")
             elif line.startswith("- [/]"):
                 new_lines.append(f"<input type='checkbox' class='semi'/> {line[6:]}<br>")
             else:

@@ -136,6 +136,10 @@ blockquote {
     border-radius: 2px;
 }
 
+span.dim {
+    opacity: 60%;
+}
+
 /* you can't style disabled checkboxes so we have to do this hack */
 .content input[type=checkbox] {
     pointer-events: none;
